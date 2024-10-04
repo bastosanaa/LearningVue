@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@2"></script>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body >
+    <div id="app">
+        <div id="pokemons">
+            <div  :key="pokemonEscolhido.nome">
+                <img :src="pokemonEscolhido.img" alt="" height="200px">
+                <p>{{pokemonEscolhido.nome}}</p>
+                <div id="status">
+                    <div id="barra-vida">
+                        <div id="vida" :style="estiloBarraVida" ></div>
+                    </div>
+                    <p>{{estiloBarraVida.width}}</p>
+                </div>
+            </div>
+            <div :key="pokemonInimigo.nome">
+                <img :src="pokemonInimigo.img" alt="" height="200px">
+                <p>{{pokemonInimigo.nome}}</p>
+                <div id="status">
+                    <div id="barra-vida">
+                        <div id="vida" :style="estiloBarraVidaInimigo" ></div>
+                    </div>
+                    <p>{{estiloBarraVidaInimigo.width}}</p>
+                </div>
+            </div>
+        </div>
+        <div></div>
+        <div id="movimentos">
+            <button id="movimento" @click="rodada('ataqueNormal')"  :style="{backgroundColor: '#FFEB55'}">{{pokemonEscolhido.ataques.ataqueNormal}}</button>
+            <button id="movimento" @click="rodada('ataqueEspecial')" :style="{backgroundColor: '#FFEB55'}">{{pokemonEscolhido.ataques.ataqueEspecial}}</button>
+            <button id="movimento" :style="{backgroundColor: '#72BF78'}">Poção de cura ❇️</button>
+            <button id="movimento" :style="{backgroundColor: '#3A6D8C'}">Fugir 💨</button>
+        </div>
+        <ul id="historico">
+            <li id="registro" v-for="movimento in historico" :style="{backgroundColor: movimento.backgroundColor}" >{{movimento.pokemon}} usou {{movimento.ataque}} e causou {{movimento.dano}} de dano </li>
+        </ul>
+    </div>
+</body>
+<script src="app.js" ></script>
+</html>
