@@ -1,9 +1,10 @@
 new Vue ({
     el: '#app',
     data: {
+        pokemonOpcoes: {},
         pokemonEscolhido: {
             pokemon:'Pikachu',
-            img: 'https://i.pinimg.com/736x/bf/95/34/bf953419d76bf747cba69b55e6e03957.jpg', 
+            img: 'https://e7.pngegg.com/pngimages/978/632/png-clipart-pokemon-pokemon.png', 
             ataques:
                 {ataqueNormal: 'Cauda de ferro', ataqueEspecial: 'Choque do trovão' },
             },
@@ -18,52 +19,77 @@ new Vue ({
             width: '100%',
             backgroundColor: '#72BF78'
         },
-        vidaAtualInimigo: 100,
+        vidaAtualInimigo: 120,
         estiloBarraVidaInimigo: {
             width: '100%',
             backgroundColor: '#72BF78'
         },
-        historico: []
+        historico: [],
+        numeroRodada: 0,
+        fugir: true,
+        resultadoPardida: '',
     },
     methods: {
         atualizarVida() {
         },
         rodada(movimento) {
+            this.numeroRodada++
             if (movimento != 'cura'){
                 const ataque = {
                     ataqueNormal: randomizaNumero(6,11),
                     ataqueEspecial: randomizaNumero(9, 16)
                 }
-                const dano = ataque[movimento]
-                this.historico.push({
+                const danoAtaque = ataque[movimento]
+                const dano = this.vidaAtualInimigo - danoAtaque > 0 ? danoAtaque : this.vidaAtualInimigo
+                this.historico.unshift({
                     pokemon: this.pokemonEscolhido.pokemon,
                     ataque: this.pokemonEscolhido.ataques[movimento],
                     dano: dano,
-                    backgroundColor: '#FFEB55'
+                    backgroundColor: '#FFEB55',
+                    rodada: this.numeroRodada
                 })
-                
                 this.vidaAtualInimigo = this.vidaAtualInimigo - dano
-                this.estiloBarraVidaInimigo.width = calculaPorcentagemVida(100, this.vidaAtualInimigo)
+                this.estiloBarraVidaInimigo.width = calculaPorcentagemVida(120, this.vidaAtualInimigo)
 
             } else {
-                this.historico.push({
+                const PocaoCura = randomizaNumero(13,20)
+                const cura = this.vidaAtual + PocaoCura > 100 ? 100-this.vidaAtual : PocaoCura
+
+                this.historico.unshift({
                     pokemon: this.pokemonEscolhido.pokemon,
-                    cura: randomizaNumero(7,16)})
+                    cura: cura,
+                    backgroundColor: '#72BF78',
+                    rodada: this.numeroRodada
+                })
+                    if (this.vidaAtual < 100) {
+                        this.vidaAtual = this.vidaAtual += cura
+                    }
             }
-            const danoInimigo = randomizaNumero(8,15)
-            this.historico.push({
+            const danoAtaqueInimigo = randomizaNumero(8,15)
+            const danoInimigo = this.vidaAtual - danoAtaqueInimigo > 0 ? danoAtaqueInimigo : this.vidaAtual
+            this.historico.unshift({
                 pokemon: this.pokemonInimigo.pokemon,
                 ataque: 'Pulso das sombras',
                 dano:danoInimigo,
-                backgroundColor: '#7E60BF'
+                backgroundColor: '#7E60BF',
+                rodada: this.numeroRodada
             })
-
             this.vidaAtual = this.vidaAtual - danoInimigo
-                this.estiloBarraVida.width = calculaPorcentagemVida(100, this.vidaAtual)
-            
+            this.estiloBarraVida.width = calculaPorcentagemVida(100, this.vidaAtual)
         },
-        
     },
+    watch: {
+        fugir() {
+            this.historico = []
+            this.numeroRodada = 0
+            this.vidaAtual = 100
+            this.vidaAtualInimigo = 120
+            this.estiloBarraVida.width = calculaPorcentagemVida(100, this.vidaAtual)
+            this.estiloBarraVidaInimigo.width = calculaPorcentagemVida(120, this.vidaAtualInimigo)
+
+
+        }
+    }
 })
 
 function randomizaNumero(min, max) {

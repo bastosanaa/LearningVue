@@ -4,7 +4,9 @@
 
 # Batalha Pokemon
 
-[] - representação do pokemon e seu adversário
-[] - barra de vida (progress bar)
-[] - tracker dos ataques de cada um (listas)
-[] - botoes de ataque, cura e fugir
+[x] - representação do pokemon e seu adversário
+[x] - barra de vida (progress bar)
+[x] - tracker dos ataques de cada um (listas)
+[x] - botoes de ataque, cura e fugir
+[] - finalizar jogo
+[] - reiniciar ao clicar em fugir

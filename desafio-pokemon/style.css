@@ -1,11 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+html{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+#background {
+    background-size: contain;
+    /* background-position: center; */
+    /* background-repeat: no-repeat; */
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    left: 0
+
+}
+
 #app {
-    /* width: 100vw; */
-    /* height: 100vh; */
+    padding: 2rem;
     box-sizing: border-box;
     font-family: "Roboto", sans-serif;
     font-size: 1rem;
+    width: 850px;
+    max-width: 1000px;
+    height: 100vh;
+    background-color: #f1fdfe;
+    overflow: hidden;
 }
 
 
@@ -17,15 +42,24 @@
     justify-content: center;
 }
 
-#movimentos {
+#app-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.movimentos {
     display: flex;
     gap: 10px;
     align-items: center;
     justify-content: center;
     padding: 3rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-#movimento {
+button {
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
     border: none;
@@ -57,9 +91,11 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 0 3rem;
+    padding: 1rem 3rem; 
+    overflow-y: scroll;
+    overflow: auto;
+    height: 40vh;
 }
-
 
 #registro {
     padding: 0.5rem 1rem;
