@@ -4,13 +4,13 @@ new Vue ({
         pokemonOpcoes: {},
         pokemonEscolhido: {
             pokemon:'Pikachu',
-            img: 'https://e7.pngegg.com/pngimages/978/632/png-clipart-pokemon-pokemon.png', 
+            img: './assets/pickachu.png', 
             ataques:
                 {ataqueNormal: 'Cauda de ferro', ataqueEspecial: 'Choque do trovão' },
             },
         pokemonInimigo: {
             pokemon: 'Gengar',
-            img:'https://i.pinimg.com/originals/ae/f4/80/aef4805c7c2afc9bae51613e46bd5b50.png',
+            img:'./assets/gengar.png',
         },
         ataque: 'ataque',
         ataqueEspecial: 'ataque especial',
@@ -50,9 +50,12 @@ new Vue ({
                 })
                 this.vidaAtualInimigo = this.vidaAtualInimigo - dano
                 this.estiloBarraVidaInimigo.width = calculaPorcentagemVida(120, this.vidaAtualInimigo)
+                if (this.vidaAtualInimigo == 0 ) {
+                    this.resultadoPardida = 'venceu'
+                }
 
             } else {
-                const PocaoCura = randomizaNumero(13,20)
+                const PocaoCura = randomizaNumero(13,18)
                 const cura = this.vidaAtual + PocaoCura > 100 ? 100-this.vidaAtual : PocaoCura
 
                 this.historico.unshift({
@@ -76,19 +79,25 @@ new Vue ({
             })
             this.vidaAtual = this.vidaAtual - danoInimigo
             this.estiloBarraVida.width = calculaPorcentagemVida(100, this.vidaAtual)
+            if (this.vidaAtual == 0 ) {
+                return this.resultadoPardida = 'perdeu'
+            }
         },
-    },
-    watch: {
-        fugir() {
+        reiniciar() {
             this.historico = []
             this.numeroRodada = 0
             this.vidaAtual = 100
             this.vidaAtualInimigo = 120
             this.estiloBarraVida.width = calculaPorcentagemVida(100, this.vidaAtual)
             this.estiloBarraVidaInimigo.width = calculaPorcentagemVida(120, this.vidaAtualInimigo)
-
-
+            this.resultadoPardida = ''
         }
+    },
+    watch: {
+        fugir() {
+            this.reiniciar()
+        },
+
     }
 })
 

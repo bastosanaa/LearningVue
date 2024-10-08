@@ -12,8 +12,8 @@
     <img id="background" src="https://i.pinimg.com/originals/3f/ea/cf/3feacfa69c2cb52991d4f21d2e61aa4e.jpg" alt="">
     <div id="app">
         <div id="pokemons">
-            <div  :key="pokemonEscolhido.pokemon">
-                <img :src="pokemonEscolhido.img" alt="" height="200px">
+            <div  :key="pokemonEscolhido.pokemon" :style="[{display: 'flex', flexDirection: 'column', alignItems: 'center'}]" >
+                <img :src="pokemonEscolhido.img"  height="200px">
                 <p>{{pokemonEscolhido.pokemon}}</p>
                 <div id="status">
                     <div id="barra-vida">
@@ -22,7 +22,7 @@
                     <p>{{estiloBarraVida.width}}</p>
                 </div>
             </div>
-            <div :key="pokemonInimigo.pokemon">
+            <div :key="pokemonInimigo.pokemon" :style="[{display: 'flex', flexDirection: 'column', alignItems: 'center'}]">
                 <img :src="pokemonInimigo.img" alt="" height="200px">
                 <p>{{pokemonInimigo.pokemon}}</p>
                 <div id="status">
@@ -35,22 +35,32 @@
         </div>
         <div></div>
         <div>
-            <div class="movimentos" v-show="fugir">
-                <button @click="fugir = !fugir" :style="{backgroundColor: '#7ac1f0'}">Iniciar Batalha</button>
+            <div id="jogarNovamente" @click="reiniciar" :style="{fontSize: '1.5rem'}" v-show="resultadoPardida == 'venceu'">
+                <p>Parabéns, você venceu!! 🎉</p>
+                <button :style="[{backgroundColor: '#7ac1f0', boxShadow: '5px 5px 5px rgba(0,0,0,0.2)'}]">Batalhar Novamente</button>
             </div>
-            <div class="movimentos" v-show="!fugir">
+            <div id="jogarNovamente" @click="reiniciar" :style="{fontSize: '1.5rem'}" v-show="resultadoPardida == 'perdeu'">
+                <p >Você perdeu 😥</p>
+                <button :style="[{backgroundColor: '#7ac1f0', boxShadow: '5px 5px 5px rgba(0,0,0,0.2)'}]">Tentar Novamente</button>
+            </div>
+            <div class="movimentos" v-show="fugir">
+                <button @click="fugir = !fugir" :style="[{backgroundColor: '#7ac1f0', boxShadow: '5px 5px 5px rgba(0,0,0,0.2)'}]">Iniciar Batalha</button>
+            </div>
+            <div class="movimentos" v-show="!fugir && resultadoPardida==''">
                 <button  @click="rodada('ataqueNormal')"  :style="{backgroundColor: '#FFEB55'}">{{pokemonEscolhido.ataques.ataqueNormal}}</button>
                 <button  @click="rodada('ataqueEspecial')" :style="{backgroundColor: '#FFEB55'}">{{pokemonEscolhido.ataques.ataqueEspecial}}</button>
                 <button  @click="rodada('cura')" :style="{backgroundColor: '#72BF78'}">Poção de cura ❇️</button>
                 <button  @click="fugir = !fugir" :style="{backgroundColor: '#3A6D8C'}">Fugir 💨</button>
             </div>
-            <ul id="historico" v-show="!fugir">
-                <p v-show="historico.length> 0">movimentos</p>
-                <li id="registro" v-for="movimento in historico" :style="{backgroundColor: movimento.backgroundColor}" >
-                    <p v-if="movimento.dano">{{movimento.pokemon}} usou <span :style="{fontWeight: 'bold'}">{{movimento.ataque}}</span> e causou {{movimento.dano}} de dano <span :style="{float: 'right', color: 'FAF7F0'}">{{movimento.rodada}}º Rodada</span></p>
-                    <p v-else><span :style="{color: '#387F39', fontWeight: 'bold' }">++</span> {{movimento.pokemon}} usou <span :style="{fontWeight: 'bold'}">poção de cura</span> e curou {{movimento.cura}} de vida <span :style="{float: 'right', color: 'FAF7F0'}">{{movimento.rodada}}º Rodada</span></p>
-                </li>
-            </ul>
+            <div id="historico" v-show="historico.length> 0">
+                <p  :style="[{fontSize: '1.5rem', color: 'rgba(0,0,0,0.2)'}]" >movimentos</p>
+                <ul id="lista-historico" v-show="!fugir">
+                    <li id="registro" v-for="movimento in historico" :style="{backgroundColor: movimento.backgroundColor}" >
+                        <p v-if="movimento.dano">{{movimento.pokemon}} usou <span :style="{fontWeight: 'bold'}">{{movimento.ataque}}</span> e causou {{movimento.dano}} de dano <span :style="{float: 'right', color: 'FAF7F0'}">{{movimento.rodada}}º Rodada</span></p>
+                        <p v-else><span :style="{color: '#387F39', fontWeight: 'bold' }">++</span> {{movimento.pokemon}} usou <span :style="{fontWeight: 'bold'}">poção de cura</span> e curou {{movimento.cura}} de vida <span :style="{float: 'right', color: 'FAF7F0'}">{{movimento.rodada}}º Rodada</span></p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>

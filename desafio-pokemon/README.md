@@ -9,4 +9,4 @@
 [x] - tracker dos ataques de cada um (listas)
 [x] - botoes de ataque, cura e fugir
 [] - finalizar jogo
-[] - reiniciar ao clicar em fugir
+[x] - reiniciar ao clicar em fugir
